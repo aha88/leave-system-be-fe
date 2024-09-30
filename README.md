@@ -60,5 +60,12 @@ If you prefer to run each step individually, you can use the following commands:
    npm run dev
     
    ```
+
+6. **Run Swagger**:
+   ```bash
+   {HOSTNAME}/api-docs/#/
+    
+   ```
+
 ---
  
