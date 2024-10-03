@@ -4,9 +4,8 @@ const verifyUser = async (req, res, next) => {
 
     try {
         const user = await db('users')
-            .join('employees', 'employees.id', 'users.employee_id')
-            .where('users.email', req.user.email) // Corrected syntax for where clause
-            .first(); // Fetch the first matching user
+            .where('users.email', req.user.email)  
+            .first(); 
 
         if (!user) {
             return res.status(404).json({ message: 'User not found' }); // Handle case where user doesn't exist

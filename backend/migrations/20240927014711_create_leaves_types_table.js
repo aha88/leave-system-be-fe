@@ -3,7 +3,7 @@
  * @returns { Promise<void> }
  */
 exports.up = function(knex) {
-    return knex.schema.createTable('leaves_type', function(table) {
+    return knex.schema.createTable('leave_types', function(table) {
         table.increments('id').primary();
         table.string('name');
         table.integer('company_id');
@@ -21,5 +21,5 @@ exports.up = function(knex) {
  * @returns { Promise<void> }
  */
 exports.down = function(knex) {
-    return knex.schema.dropTable('leaves_type');
+    return knex.schema.dropTable('leave_types');
 };

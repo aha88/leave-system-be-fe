@@ -1,12 +1,10 @@
 const db = require('../db');
 
 
-/**
- * 
- */
+// get all employeee
 const getAllEmployee = async (req, res) => {
-   if (req.userAccess != 1) {
-    return res.status(405).json('You dont have the authorization');
+  if ([2, 3, 4].includes(req.userAccess.role_id)) {
+    return res.status(405).json('You don\'t have the authorization');
   }
   
     try {
@@ -66,9 +64,12 @@ const getAllEmployee = async (req, res) => {
         }
 }
 
-
-// id a customer
+// get employee by company
 const allEmployeeByCompany = async (req, res) => {
+  if ([2, 4].includes(req.userAccess.role_id)) {
+    return res.status(405).json('You don\'t have the authorization');
+  }
+  
   const id = req.params.id
  
   try {
@@ -91,8 +92,6 @@ const allEmployeeByCompany = async (req, res) => {
       .join('designations', 'designations.id', 'employees.designation_id')
       .where('employees.company_id', id );
   
-    
-      
       const transformedEmployee = employee.map(emp => ({
           id: emp.employee_id,
           name: emp.employee_name,
@@ -132,10 +131,12 @@ const allEmployeeByCompany = async (req, res) => {
  
 };
 
-
-
 // id a customer
 const idEmployee = async (req, res) => {
+  if ([4].includes(req.userAccess.role_id)) {
+    return res.status(405).json('You don\'t have the authorization');
+  }
+
     const id = req.params.id
    
     try {
@@ -157,8 +158,6 @@ const idEmployee = async (req, res) => {
         .join('roles', 'roles.id', 'employees.role_id')
         .join('designations', 'designations.id', 'employees.designation_id')
         .where({ 'employees.id':id });
-    
-      
         
         const transformedEmployee = employee.map(emp => ({
             id: emp.employee_id,
@@ -199,12 +198,7 @@ const idEmployee = async (req, res) => {
    
 };
 
-
-
-/**
- * 
- * update emplyee
- */
+//id employee update 
 const idEmployeeUpdate = async (req, res) => {
   const {
     name,
@@ -261,6 +255,7 @@ const idEmployeeUpdate = async (req, res) => {
   }
 }
 
+// id employee update details
 const idEmployeeDetailsUpdate = async (req, res) => {
   const {
           name,
@@ -273,20 +268,6 @@ const idEmployeeDetailsUpdate = async (req, res) => {
           email,
           phone,
           handphone,
-          spouse_name,
-          spouse_bod,
-          child_1,
-          child_1_bod,
-          child_2,
-          child_2_bod,
-          child_3,
-          child_3_bod,
-          child_4,
-          child_4_bod,
-          child_5,
-          child_5_bod,
-          child_6,
-          child_6_bod,
     } = req.body;
     const { id } = req.params;
 
@@ -305,21 +286,7 @@ const idEmployeeDetailsUpdate = async (req, res) => {
         country,
         email,
         phone,
-        handphone,
-        spouse_name,
-        spouse_bod,
-        child_1,
-        child_1_bod,
-        child_2,
-        child_2_bod,
-        child_3,
-        child_3_bod,
-        child_4,
-        child_4_bod,
-        child_5,
-        child_5_bod,
-        child_6,
-        child_6_bod,
+        handphone
       });
 
       if(updateEmployeeData == 1){
@@ -340,11 +307,15 @@ const idEmployeeDetailsUpdate = async (req, res) => {
   }
 }
 
+const idEmployeeDetailsHistory = async (res,req) => {
+
+}
 
 module.exports = {
     getAllEmployee,
     allEmployeeByCompany,
     idEmployee,
     idEmployeeUpdate,
-    idEmployeeDetailsUpdate
+    idEmployeeDetailsUpdate,
+    idEmployeeDetailsHistory
   };

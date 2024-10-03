@@ -1,5 +1,5 @@
 //----------------------------------------------------------------------------------------------------------------------------------------//
-//                   USER                                                                                                             //
+//                   **USER**                                                                                                             //
 //----------------------------------------------------------------------------------------------------------------------------------------//
 
 /**
@@ -75,15 +75,60 @@
  *         description: Error retrieving user
  */
 
+/**
+ * @swagger
+ * /api/user/add:
+ *   post:
+ *     summary: Update employee data
+ *     tags:
+ *       - User
+ *     security:
+ *       - xTokenAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - name
+ *               - email
+ *               - password
+ *               - role_id
+ *               - status
+ *             properties:
+ *               name:
+ *                 type: string
+ *                 example: "Aizat"
+ *               email:
+ *                 type: string
+ *                 format: email
+ *                 example: "aizat@email.com"
+ *               password:
+ *                 type: string
+ *                 example: "6789123123"
+ *               role_id:
+ *                 type: integer
+ *                 example: 1
+ *               status:
+ *                 type: string
+ *                 example: "active"
+ *     responses:
+ *       200:
+ *         description: Success
+ *       403:
+ *         description: Unauthorized request
+ */
+
 //----------------------------------------------------------------------------------------------------------------------------------------//
-//                   EMPLOYEE                                                                                                             //          
+//                          **EMPLOYEE**                                                                                                  //          
 //----------------------------------------------------------------------------------------------------------------------------------------//
 
 /**
  * @swagger
  * /api/employees:
  *  get:
- *    summary: Retreive all customers
+ *    summary: Retreive all emlpoyees
  *    tags:
  *      - Employee
  *    security:
@@ -99,14 +144,14 @@
  * @swagger
  * /api/employeeCompany/{id}:
  *  get:
- *    summary: Retreive all customers
+ *    summary: Retreive employee by user company ID
  *    tags:
  *      - Employee
  *    parameters:
  *      - name: id
  *        in: path
  *        required: true
- *        description: The ID of customer
+ *        description: The ID of employee
  *        schema:
  *          type: integer
  *    security:
@@ -117,21 +162,21 @@
  *       403:
  *         description: Unauthorized request
  *       404:
- *         description: Customer registration not found
+ *         description: employee registration not found
  */
 
 /**
  * @swagger
  * /api/employee/{id}:
  *  get:
- *    summary: Retreive all customers
+ *    summary: Retreive employee by ID
  *    tags:
  *      - Employee
  *    parameters:
  *      - name: id
  *        in: path
  *        required: true
- *        description: The ID of customer
+ *        description: The ID of employee
  *        schema:
  *          type: integer
  *    security:
@@ -142,7 +187,7 @@
  *       403:
  *         description: Unauthorized request
  *       404:
- *         description: Customer registration not found
+ *         description: employee registration not found
  */
 
 
@@ -224,7 +269,7 @@
 
 /**
  * @swagger
- * /api/employee_details_update/{id}:
+ * /api/employee-details-update/{id}:
  *   post:
  *     summary: Update employee details data
  *     tags:
@@ -255,20 +300,6 @@
  *               - email,
  *               - phone,
  *               - handphone,
- *               - spouse_name,
- *               - spouse_bod,
- *               - child_1,
- *               - child_1_bod,
- *               - child_2,
- *               - child_2_bod,
- *               - child_3,
- *               - child_3_bod,
- *               - child_4,
- *               - child_4_bod,
- *               - child_5,
- *               - child_5_bod,
- *               - child_6,
- *               - child_6_bod,
  *             properties:
  *               name:
  *                 type: string
@@ -301,70 +332,248 @@
  *               handphone:
  *                 type: string
  *                 example: "4514121231"
- *               spouse_name:
- *                 type: string
- *                 example: "Nor A"
- *               spouse_bod:
- *                 type: string
- *                 format: date
- *                 example: "1998-11-11"
- *               child_1:
- *                 type: string
- *                 example: "Nor A"
- *               child_1_bod:
- *                 type: string
- *                 format: date
- *                 example: "1998-11-11"
- *               child_2:
- *                 type: string
- *                 example: "Nor A"
- *               child_2_bod:
- *                 type: string
- *                 format: date
- *                 example: "1998-11-11"
- *               child_3:
- *                 type: string
- *                 example: "Nor A"
- *               child_3_bod:
- *                 type: string
- *                 format: date
- *                 example: "1998-11-11"
- *               child_4:
- *                 type: string
- *                 example: "Nor A"
- *               child_4_bod:
- *                 type: string
- *                 format: date
- *                 example: "1998-11-11"
- *               child_5:
- *                 type: string
- *                 example: "Nor A"
- *               child_5_bod:
- *                 type: string
- *                 format: date
- *                 example: "1998-11-11"
- *               child_6:
- *                 type: string
- *                 example: "Nor A"
- *               child_6_bod:
- *                 type: string
- *                 format: date
- *                 example: "1998-11-11"       
- *               department_id:
- *                 type: integer
- *                 example: 1
- *               designation_id:
- *                 type: integer
- *                 example: 1
- *               category_id:
- *                 type: integer
- *                 example: 1
- *               status:
- *                 type: string
- *                 example: "A"
  *     responses:
  *       200:
  *         description: Success
  *       403:
  *         description: Unauthorized request
+ */
+
+//----------------------------------------------------------------------------------------------------------------------------------------//
+//                   **LEAVES**                                                                                                             //          
+//----------------------------------------------------------------------------------------------------------------------------------------//
+
+/**
+ * @swagger
+ * /api/leaves:
+ *  get:
+ *    summary: Retreive all leaves
+ *    tags:
+ *      - Leaves
+ *    security:
+ *      - xTokenAuth: []
+ *    responses:
+ *       200:
+ *         description: Success Retretive
+ *       403:
+ *         description: Unauthorized request 
+ */
+
+/**
+ * @swagger
+ * /api/leavesCompany:
+ *  get:
+ *    summary: Retreive all leaves by user company
+ *    tags:
+ *      - Leaves
+ *    security:
+ *      - xTokenAuth: []
+ *    responses:
+ *       200:
+ *         description: Success Retretive
+ *       403:
+ *         description: Unauthorized request 
+ */
+
+
+//----------------------------------------------------------------------------------------------------------------------------------------//
+//                   **DEPARTMENTS**                                                                                                             //          
+//----------------------------------------------------------------------------------------------------------------------------------------//
+
+/**
+ * @swagger
+ * /api/departments:
+ *  get:
+ *    summary: Retreive all departments
+ *    tags:
+ *      - Departments
+ *    security:
+ *      - xTokenAuth: []
+ *    responses:
+ *       200:
+ *         description: Success Retretive
+ *       403:
+ *         description: Unauthorized request 
+ */
+
+/**
+ * @swagger
+ * /api/departmentsCompany:
+ *  get:
+ *    summary: Retreive all departments by user company
+ *    tags:
+ *      - Departments
+ *    security:
+ *      - xTokenAuth: []
+ *    responses:
+ *       200:
+ *         description: Success Retretive
+ *       403:
+ *         description: Unauthorized request 
+ */
+
+
+//----------------------------------------------------------------------------------------------------------------------------------------//
+//                   **DESIGNATIONS**                                                                                                             //          
+//----------------------------------------------------------------------------------------------------------------------------------------//
+
+/**
+ * @swagger
+ * /api/designations:
+ *  get:
+ *    summary: Retreive all designations
+ *    tags:
+ *      - Designations
+ *    security:
+ *      - xTokenAuth: []
+ *    responses:
+ *       200:
+ *         description: Success Retretive
+ *       403:
+ *         description: Unauthorized request 
+ */
+
+/**
+ * @swagger
+ * /api/designationsCompany:
+ *  get:
+ *    summary: Retreive all designations by user company
+ *    tags:
+ *      - Designations
+ *    security:
+ *      - xTokenAuth: []
+ *    responses:
+ *       200:
+ *         description: Success Retretive
+ *       403:
+ *         description: Unauthorized request 
+ */
+
+//----------------------------------------------------------------------------------------------------------------------------------------//
+//                   **CUSTOMERS**                                                                                                             //          
+//----------------------------------------------------------------------------------------------------------------------------------------//
+
+/**
+ * @swagger
+ * /api/customers:
+ *  get:
+ *    summary: Retreive all customers
+ *    tags:
+ *      - Customers
+ *    security:
+ *      - xTokenAuth: []
+ *    responses:
+ *       200:
+ *         description: Success Retretive
+ *       403:
+ *         description: Unauthorized request 
+ */
+
+/**
+ * @swagger
+ * /api/customer/{id}:
+ *  get:
+ *    summary: Retreive all customers
+ *    tags:
+ *      - Customers
+ *    parameters:
+ *      - name: id
+ *        in: path
+ *        required: true
+ *        description: The ID of customer
+ *        schema:
+ *          type: integer
+ *    security:
+ *      - xTokenAuth: []
+ *    responses:
+ *       200:
+ *         description: Success Retretive
+ *       403:
+ *         description: Unauthorized request
+ *       404:
+ *         description: Customer registration not found
+ */
+
+/**
+ * @swagger
+ * /api/customers_delete/{id}:
+ *  post:
+ *    summary: Retreive all customers
+ *    tags:
+ *      - Customers
+ *    parameters:
+ *      - name: id
+ *        in: path
+ *        required: true
+ *        description: The ID of customer
+ *        schema:
+ *          type: integer
+ *    security:
+ *      - xTokenAuth: []
+ *    responses:
+ *       200:
+ *         description: Success Retretive
+ *       403:
+ *         description: Unauthorized request 
+ */
+
+/**
+ * @swagger
+ * /api/customers_update/{id}:
+ *  post:
+ *    summary: Retreive all customers
+ *    tags:
+ *      - Customers
+ *    parameters:
+ *      - name: id
+ *        in: path
+ *        required: true
+ *        description: The ID of customer
+ *        schema:
+ *          type: integer
+ *    security:
+ *      - xTokenAuth: []
+ *    requestBody:
+ *     required: true
+ *     content:
+ *      application/json:
+*        schema:
+*          type: object
+*          required:
+*            - name
+*            - email
+*            - phone
+*            - national_id
+*            - birth_of_date
+*            - address
+*            - status_id
+*          properties:
+  *            name:
+  *              type: string
+  *              example: "aizat"
+  *            email:
+  *              type: string
+  *              format: email
+  *              example: "aizat@email.com"
+  *            phone:
+  *              type: string
+  *              example: "6789123123"
+  *            national_id:
+  *              type: integer
+  *              example: 1
+  *            birth_of_date:
+  *              type: string
+  *              format: date  # Changed to 'date' for clarity
+  *              example: "1988-11-11"
+  *            address:
+  *              type: string
+  *              example: "jalan 1, 46000 selangor"
+  *            status_id:
+  *              type: integer
+  *              example: 1
+ *    responses:
+ *       200:
+ *         description: Success Retretive
+ *       403:
+ *         description: Unauthorized request 
  */

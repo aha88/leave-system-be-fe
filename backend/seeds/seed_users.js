@@ -8,10 +8,10 @@ exports.seed = async function(knex) {
   await knex('users').del();
   
   const users = [
-    { id: 1, name: 'aizat admin', email: 'aizat@email.com', status: 'active',role_id: 1, employee_id: 1 },
-    { id: 2, name: 'aizat manger', email: 'aizat@email.com', status: 'active',role_id: 2, employee_id: 1 },
-    { id: 3, name: 'aizat hr', email: 'aizat@email.com', status: 'active',role_id: 3, employee_id: 1 },
-    { id: 4, name: 'aizat employee', email: 'aizat@email.com', status: 'active',role_id: 4, employee_id: 1 },
+    { id: 1, name: 'aizat admin', email: 'aizat@email.com', status: 'active',role_id: 1},
+    { id: 2, name: 'aizat manger', email: 'aizatmanager@email.com', status: 'active',role_id: 2},
+    { id: 3, name: 'aizat hr', email: 'aizathr@email.com', status: 'active',role_id: 3},
+    { id: 4, name: 'aizat employee', email: 'aizatemployee@email.com', status: 'active',role_id: 4},
   ];
 
   for (const user of users) {
@@ -26,7 +26,6 @@ exports.seed = async function(knex) {
       email: user.email,
       password: encryptedPassword,  // Store the encrypted password
       status: user.status,
-      employee_id: user.employee_id,
       role_id: user.role_id,
       created_at: new Date(),
       updated_at: new Date()

@@ -2,7 +2,6 @@ const db = require('../db');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
-
 const postLogin = async (req, res) => {
   const { email, password } = req.body;
 
@@ -48,9 +47,10 @@ const postLogin = async (req, res) => {
 
 // Get all users
 const getAllUsers = async (req, res) => {
-  if (req.userAccess != 1) {
-    return req.status(405).json('You are not allowed');
+  if ([2, 3, 4].includes(req.userAccess.role_id)) {
+    return res.status(405).json('You don\'t have the authorization');
   }
+
   try {
     const users = await db('users').select('*');
 
@@ -90,10 +90,75 @@ const getUserId = async (req, res) => {
   }
 };
 
+const addUserAccess = async (req, res) => {
+  if ([2, 4].includes(req.userAccess.role_id)) {
+    return res.status(405).json('You don\'t have the authorization');
+  }
+  const {
+    name,
+    email,
+    password,
+    status,
+    role_id,
+  } = req.body;
+
+  try {
+
+ 
+
+    const existing = await db('users')
+    .select('*')
+    .where('email', email)
+    .first();
+
+  if (existing) {
+    res.status(405).json({msg :'This email is already registered!'})
+  }else{
+    
+    const user = { name: name,
+      email: email,
+      status: status,
+      role_id: role_id,
+    };
+    const [id] =  await db('users').insert(user);
+    
+    const getId = await db('users')
+    .max('id as id')  
+    .first();
+    const newid = (parseFloat(getId.id));
+
+    const passwordString = `${newid}${name}${email}${password}`;
+    const encryptedPassword = await bcrypt.hash(passwordString, 10); 
+    
+    await db('users')
+    .where('id', newid)
+    .update({ password: encryptedPassword });
+
+    res.status(201).json({ id, name, email });
+
+  }
+
+  } catch(error) {
+    res.status(500).send('Error add user');
+  }
+
+
+}
+
+
+const deleteUserAccess = async (req, res) => {
+   if ([2, 4].includes(req.userAccess.role_id)) {
+    return res.status(405).json('You don\'t have the authorization');
+  }
+
+}
+
 
 
 module.exports = {
   postLogin,
   getAllUsers,
   getUserId,
+  addUserAccess,
+  deleteUserAccess
 };

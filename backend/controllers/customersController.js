@@ -1,20 +1,6 @@
 const db = require('../db');
 const {verifyToken} = require('../service/generateToken')
-/**
- * @swagger
- * /api/customers:
- *  get:
- *    summary: Retreive all customers
- *    tags:
- *      - Customers
- *    security:
- *      - xTokenAuth: []
- *    responses:
- *       200:
- *         description: Success Retretive
- *       403:
- *         description: Unauthorized request 
- */
+
 // Get all customers
 const getAllCustomer = async (req, res) => {
 
@@ -47,30 +33,6 @@ const getAllCustomer = async (req, res) => {
 };
 
 
-/**
- * @swagger
- * /api/customer/{id}:
- *  get:
- *    summary: Retreive all customers
- *    tags:
- *      - Customers
- *    parameters:
- *      - name: id
- *        in: path
- *        required: true
- *        description: The ID of customer
- *        schema:
- *          type: integer
- *    security:
- *      - xTokenAuth: []
- *    responses:
- *       200:
- *         description: Success Retretive
- *       403:
- *         description: Unauthorized request
- *       404:
- *         description: Customer registration not found
- */
 // id a customer
 const idCustomer = async (req, res) => {
   const id = req.params.id
@@ -112,28 +74,7 @@ const idCustomer = async (req, res) => {
   }
 };
 
-/**
- * @swagger
- * /api/customers_delete/{id}:
- *  post:
- *    summary: Retreive all customers
- *    tags:
- *      - Customers
- *    parameters:
- *      - name: id
- *        in: path
- *        required: true
- *        description: The ID of customer
- *        schema:
- *          type: integer
- *    security:
- *      - xTokenAuth: []
- *    responses:
- *       200:
- *         description: Success Retretive
- *       403:
- *         description: Unauthorized request 
- */
+
 // deleteCustomer function
 const deleteCustomer = async (req, res) => {
   const { id } = req.params;  
@@ -164,66 +105,7 @@ const deleteCustomer = async (req, res) => {
   }
 };
 
-/**
- * @swagger
- * /api/customers_update/{id}:
- *  post:
- *    summary: Retreive all customers
- *    tags:
- *      - Customers
- *    parameters:
- *      - name: id
- *        in: path
- *        required: true
- *        description: The ID of customer
- *        schema:
- *          type: integer
- *    security:
- *      - xTokenAuth: []
- *    requestBody:
- *     required: true
- *     content:
- *      application/json:
-*        schema:
-*          type: object
-*          required:
-*            - name
-*            - email
-*            - phone
-*            - national_id
-*            - birth_of_date
-*            - address
-*            - status_id
- *          properties:
-  *            name:
-  *              type: string
-  *              example: "aizat"
-  *            email:
-  *              type: string
-  *              format: email
-  *              example: "aizat@email.com"
-  *            phone:
-  *              type: string
-  *              example: "6789123123"
-  *            national_id:
-  *              type: integer
-  *              example: 1
-  *            birth_of_date:
-  *              type: string
-  *              format: date  # Changed to 'date' for clarity
-  *              example: "1988-11-11"
-  *            address:
-  *              type: string
-  *              example: "jalan 1, 46000 selangor"
-  *            status_id:
-  *              type: integer
-  *              example: 1
- *    responses:
- *       200:
- *         description: Success Retretive
- *       403:
- *         description: Unauthorized request 
- */
+
 // update a delete
 const updateCustomer = async (req, res) => {
   const { 
@@ -267,61 +149,7 @@ try {
 
 }
 
-/**
- *  @swagger
- *  /api/customer/add:
- *   post:
- *    summary: add customer
- *    tags:
- *      - Customers
-  *    security:
- *       - xTokenAuth: []  
- *    requestBody:
- *     required: true
- *     content:
- *      application/json:
-*        schema:
-*          type: object
-*          required:
-*            - name
-*            - email
-*            - phone
-*            - national_id
-*            - birth_of_date
-*            - address
-*            - status_id
- *          properties:
- *            name:
- *              type: string
- *              example: "aizat"
- *            email:
- *              type: string
- *              format: email
- *              example: "aizat@email.com"
- *            phone:
- *              type: string
- *              example: "6789123123"
- *            national_id:
- *              type: integer
- *              example: 1
- *            birth_of_date:
- *              type: string
- *              format: date  # Changed to 'date' for clarity
- *              example: "1988-11-11"
- *            address:
- *              type: string
- *              example: "jalan 1, 46000 selangor"
- *            status_id:
- *              type: integer
- *              example: 1
- *    responses:
- *       200:
- *         description: Customer added successfully.
- *       400:
- *         description: Bad request, validation errors.
- *       500:
- *         description: Internal server error.
- */
+
 
 // Add a new user
 const addCustomer = async (req, res) => {

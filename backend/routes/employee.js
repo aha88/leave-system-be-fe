@@ -9,6 +9,7 @@ router.get('/employees', authenticateToken,verifyUser, employeeController.getAll
 router.get('/employeeCompany/:id', authenticateToken,verifyUser, employeeController.allEmployeeByCompany); 
 router.get('/employee/:id', authenticateToken,verifyUser, employeeController.idEmployee); 
 router.post('/employee_update/:id', authenticateToken,verifyUser, employeeController.idEmployeeUpdate); 
-router.post('/employee_details_update/:id', authenticateToken,verifyUser, employeeController.idEmployeeDetailsUpdate); 
+router.post('/employee-details-update/:id', authenticateToken,verifyUser, employeeController.idEmployeeDetailsUpdate); 
+router.post('/employee-leave-history/:id', authenticateToken,verifyUser, employeeController.idEmployeeDetailsHistory); 
 
 module.exports = router;
