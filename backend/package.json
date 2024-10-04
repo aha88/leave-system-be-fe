@@ -1,6 +1,6 @@
 {
-  "name": "crud_nodejs",
-  "version": "1.0.0",
+  "name": "api-leave-system",
+  "version": "1.0.5",
   "description": "",
   "main": "server.js",
   "scripts": {
