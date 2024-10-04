@@ -12,7 +12,7 @@ const postLogin = async (req, res) => {
       return res.status(400).json({ message: 'Invalid email or password' });
     }
 
-    const getEcypt = `${user.id}${user.name}${user.email}${password}`
+    const getEcypt = `${user.id}${user.email}${password}`
     const isMatch = await bcrypt.compare(getEcypt, user.password);
 
     if (!isMatch) {
@@ -68,7 +68,6 @@ const getAllUsers = async (req, res) => {
   }
 };
 
-
 // Get all users with  suffix (example function)
 const getUserId = async (req, res) => {
   const id = req.params.id;
@@ -82,18 +81,21 @@ const getUserId = async (req, res) => {
       
     }];
 
-    res.json(data);
+    return res.json(data);
   
   } catch (error) {
     console.error('Error retrieving users:', error);
-    res.status(500).send('Error retrieving users');
+    return res.status(500).send('Error retrieving users');
   }
+
 };
 
+// add user for access
 const addUserAccess = async (req, res) => {
   if ([2, 4].includes(req.userAccess.role_id)) {
     return res.status(405).json('You don\'t have the authorization');
   }
+
   const {
     name,
     email,
@@ -112,7 +114,7 @@ const addUserAccess = async (req, res) => {
     .first();
 
   if (existing) {
-    res.status(405).json({msg :'This email is already registered!'})
+   return res.status(405).json({msg :'This email is already registered!'})
   }else{
     
     const user = { name: name,
@@ -127,38 +129,169 @@ const addUserAccess = async (req, res) => {
     .first();
     const newid = (parseFloat(getId.id));
 
-    const passwordString = `${newid}${name}${email}${password}`;
+    const passwordString = `${newid}${email}${password}`;
     const encryptedPassword = await bcrypt.hash(passwordString, 10); 
     
     await db('users')
     .where('id', newid)
     .update({ password: encryptedPassword });
 
-    res.status(201).json({ id, name, email });
+    return res.status(201).json({ id, name, email });
 
   }
 
   } catch(error) {
-    res.status(500).send('Error add user');
+    return res.status(500).send('Error add user');
   }
 
 
 }
 
-
+// delete user for access
 const deleteUserAccess = async (req, res) => {
    if ([2, 4].includes(req.userAccess.role_id)) {
     return res.status(405).json('You don\'t have the authorization');
   }
 
+  const { id } = req.params;
+
+  try {
+
+    const dtuser = await db('users')
+    .where('id', id).del();
+
+    if(dtuser) {
+      return res.status(200).json({
+        status: res.statusCode,
+        message: `User with ID ${id} deleted successfully`,
+      });
+    } else {
+      return res.status(404).json({
+        status: res.statusCode,
+        message: 'User not found',
+      });
+    }
+
+  } catch(error) {
+    return res.status(500).send('Error delete user');
+  }
+
 }
 
+// update user for access
+const updateUserAccess = async (req,res) => {
+  if ([2, 4].includes(req.userAccess.role_id)) {
+    return res.status(405).json('You don\'t have the authorization');
+  }
+  
+  try {
+  const {
+    name,
+    status,
+    role_id,
+  } = req.body;
+  const { id } = req.params;
+
+    const user = { 
+      name: name,
+      status: status,
+      role_id: role_id,
+    };
+    
+    await db('users').update(user)
+    .where('id', id);
+
+    return res.status(201).json({ status: res.statusCode, msg: `Successfully update user ID ${id}` });
+
+  } catch(error) {
+    return res.status(500).send('Error update user');
+  }
+  
+}
+
+// update user for access
+const updatePasswordUserAccess = async (req,res) => {
+  const { password } = req.body;
+  const { id } = req.params;
+  
+try {
+
+    const getId = await db('users').where('id', id)
+    .first();
+
+
+    const passwordString = `${id}${getId.email}${password}`;
+    const encryptedPassword = await bcrypt.hash(passwordString, 10); 
+    
+  
+      await db('users')
+      .where('id', id)
+      .update({ password: encryptedPassword });
+
+    return res.status(201).json({ msg: `User passowrd for user ID ${id}` });
+    
+  
+  } catch(error) {
+    return res.status(500).send('Error add user');
+  }
+
+}
+
+const userEmployees = async (req,res) => {
+
+  try {
+
+  const user = await db('employees')
+  .select('employees.*', 'employees.id as employee_id', 'companies.id as companyID', 'companies.name as company_name', 'companies.*')
+  .join('companies', 'companies.id', 'employees.company_id')
+  .where('employees.user_id', req.userAccess.id);
+
+const transformeduser = user.map(({ 
+  employee_id, employee_name, bod, email, phone, whatapps, telegram, role_id, 
+  designation_id, department_id, category_id, company_id, employee_details_id, user_id, 
+  companyID, company_name, registration_number, company_address, company_phone, company_email, company_status 
+  }) => ({
+    id: employee_id,
+    name: employee_name,
+    bod,
+    email,
+    phone,
+    whatapps,
+    telegram,
+    role_id,
+    designation_id,
+    department_id,
+    category_id,
+    company_id,
+    employee_details_id,
+    user_id,
+    company: {
+      id: companyID,
+      company_name,
+      registration_number,
+      company_address,
+      phone: company_phone,
+      email: company_email,
+      status: company_status
+    }
+  }));
+
+    return res.json({ status: res.statusCode, data: transformeduser, length: transformeduser.length})
+    
+  } catch(error) {
+    return res.json({msg: 'Error getting data'})
+  }
+
+}
 
 
 module.exports = {
   postLogin,
   getAllUsers,
   getUserId,
+  userEmployees,
   addUserAccess,
-  deleteUserAccess
+  deleteUserAccess,
+  updateUserAccess,
+  updatePasswordUserAccess
 };

@@ -11,5 +11,6 @@ router.post('/create-leave', authenticateToken,verifyUser, leavesController.crea
 router.post('/approve-leave', authenticateToken,verifyUser, leavesController.approvedLeave);
 router.post('/rejected-leave', authenticateToken,verifyUser, leavesController.rejectedLeave);
 router.post('/revoked-leave', authenticateToken,verifyUser, leavesController.revokedLeave);
+router.get('/leaves-history/:id', authenticateToken,verifyUser, leavesController.employeeleaveHistory);
  
 module.exports = router;

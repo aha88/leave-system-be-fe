@@ -59,7 +59,7 @@ const idCustomer = async (req, res) => {
       const data= [{
         'status': res.statusCode,
         'data': transformedCustomers,
-        'lenght': transformedCustomers.length
+        'lenghtp': transformedCustomers.length
   
       }];
   

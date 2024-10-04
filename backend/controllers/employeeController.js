@@ -195,7 +195,6 @@ const idEmployee = async (req, res) => {
       console.error('Error retrieving employee registration:', error);
       res.status(500).send('Employee registration not found');
     }
-   
 };
 
 //id employee update 
@@ -307,7 +306,121 @@ const idEmployeeDetailsUpdate = async (req, res) => {
   }
 }
 
-const idEmployeeDetailsHistory = async (res,req) => {
+const idEmployeeLeaveHistory = async (req, res) => {
+const { id,company } = req.params;
+
+console.log(company)
+  try{
+    const leaves = await db('employees')
+  .select('leaves_pool.*', 'employees.whatapps')
+  .join('leaves_pool', 'employees.id', 'leaves_pool.employee_id')    
+  .where({
+    'employees.user_id': id,
+    'leaves_pool.company_id': company
+  });                            
+
+  console.log(leaves);
+
+    res.json({
+      status: req.statusCode,
+      data: leaves,
+      length: leaves.length
+    })
+  } catch(error) {
+    res.json({msg: error});
+  }
+
+}
+
+const employeeAdd = async (req, res) => {
+  if ([2, 4].includes(req.userAccess.role_id)) {
+    return res.status(405).json('You don\'t have the authorization');
+  }
+  const { 
+    name,
+    bod,
+    email,
+    phone,
+    whatapps,
+    telegram,
+    role_id,
+    designation_id,
+    department_id,
+    category_id,
+    company_id,
+    employee_details_id,
+    user_id,
+    status
+  } = req.body;
+
+  try{
+  
+    const existing = await db('employees')
+    .select('*')
+    .where('email', email)
+    .where('company_id', company_id)
+    .first();
+
+    if (existing) {
+      res.status(405).json({msg :'This email is already registered!'})
+    }else{
+
+      const employee =  {
+        name: name,
+        bod: bod,
+        email: email,
+        phone: phone,
+        whatapps: whatapps,
+        telegram: telegram,
+        role_id: role_id,
+        designation_id: designation_id,
+        department_id: department_id,
+        category_id: category_id,
+        company_id: company_id,
+        employee_details_id: employee_details_id,
+        user_id: user_id,
+        status: status,
+      };
+
+      const adduser = await db('employees').insert(employee);
+      
+      // get latest ID employee
+      const getId = await db('employees')
+      .max('id as id')  
+      .first();
+      const newid = (parseFloat(getId.id));
+
+      // insert employee details
+      await db('employee_details').insert(
+        {
+          company_id: company_id,
+          employee_id: newid
+        }
+      );
+      
+      // get latest ID employee details
+      const getIdDetail = await db('employee_details')
+      .max('id as id')  
+      .first();
+      const newidDetail = (parseFloat(getIdDetail.id));
+
+      await db('employees')
+      .where('id', newid)
+      .update({ employee_details_id: newidDetail });
+
+
+      if(adduser){
+      res.status(201).json({ status: res.statusCode, data: 'This email is already registered!'})
+
+      }else{
+        res.status(405).json({msg :'Check all the input is already registered!'})
+      }
+      
+    }
+
+  } catch(error) {
+    res.json({msg: 'Error message: '+error});
+  }
 
 }
 
@@ -317,5 +430,6 @@ module.exports = {
     idEmployee,
     idEmployeeUpdate,
     idEmployeeDetailsUpdate,
-    idEmployeeDetailsHistory
+    idEmployeeLeaveHistory,
+    employeeAdd
   };

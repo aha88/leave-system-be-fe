@@ -134,6 +134,12 @@ const rejectedLeave = async (req, res) => {
 const revokedLeave = async (req, res) => {
 }
 
+const employeeleaveHistory = async (req, res) => {
+
+  await db('leaves')
+}
+
+
 module.exports = {
   getAllLeave,
   getAllLeaveByCompany,
@@ -141,5 +147,6 @@ module.exports = {
   updatedLeave,
   approvedLeave,
   rejectedLeave,
-  revokedLeave
+  revokedLeave,
+  employeeleaveHistory
 };

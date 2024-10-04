@@ -9,6 +9,7 @@ exports.seed = async function(knex) {
     { id:1, name: 'Pending' },
     { id:2, name: 'Approved'},
     { id:3, name: 'Rejected'},
-    { id:4, name: 'Deleted'}
+    { id:4, name: 'Deleted'},
+    { id:5, name: 'Revoked'}
   ]);
 };

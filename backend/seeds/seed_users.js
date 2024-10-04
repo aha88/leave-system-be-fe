@@ -15,7 +15,7 @@ exports.seed = async function(knex) {
   ];
 
   for (const user of users) {
-    const passwordString = `${user.id}${user.name}${user.email}aizat`;
+    const passwordString = `${user.id}${user.email}aizat`;
     const encryptedPassword = await bcrypt.hash(passwordString, 10); // 10 is the salt rounds
 
 

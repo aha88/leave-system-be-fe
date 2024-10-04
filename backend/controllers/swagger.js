@@ -77,6 +77,22 @@
 
 /**
  * @swagger
+ * /api/user/employeesCompany:
+ *   get:
+ *     summary: Retrieve all users
+ *     tags:
+ *       - User
+ *     security:
+ *       - xTokenAuth: []   
+ *     responses:
+ *       200:
+ *         description: Success Retretive
+ *       403:
+ *         description: Unauthorized request
+ */
+
+/**
+ * @swagger
  * /api/user/add:
  *   post:
  *     summary: Update employee data
@@ -113,6 +129,112 @@
  *               status:
  *                 type: string
  *                 example: "active"
+ *     responses:
+ *       200:
+ *         description: Success
+ *       403:
+ *         description: Unauthorized request
+ */
+
+/**
+ * @swagger
+ * /api/user/delete/{id}:
+ *  get:
+ *    summary: Retreive all customers
+ *    tags:
+ *      - User
+ *    parameters:
+ *      - name: id
+ *        in: path
+ *        required: true
+ *        description: The ID of customer
+ *        schema:
+ *          type: integer
+ *    security:
+ *      - xTokenAuth: []
+ *    responses:
+ *       200:
+ *         description: Success Retretive
+ *       403:
+ *         description: Unauthorized request 
+ */
+
+/**
+ * @swagger
+ * /api/user/update/{id}:
+ *   post:
+ *     summary: Update employee data
+ *     tags:
+ *       - User
+ *     parameters:
+ *       - name: id
+ *         in: path
+ *         required: true
+ *         description: The ID of the employee
+ *         schema:
+ *           type: integer
+ *     security:
+ *       - xTokenAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - name
+ *               - email
+ *               - status
+ *               - role_id
+ *             properties:
+ *               name:
+ *                 type: string
+ *                 example: "Aizat"
+ *               email:
+ *                 type: string
+ *                 format: email
+ *                 example: "aizat@email.com"
+ *               status:
+ *                 type: string
+ *                 example: "A"
+ *               role_id:
+ *                 type: integer
+ *                 example: 1
+ *     responses:
+ *       200:
+ *         description: Success
+ *       403:
+ *         description: Unauthorized request
+ */
+
+/**
+ * @swagger
+ * /api/user/updatePassword/{id}:
+ *   post:
+ *     summary: Update employee data
+ *     tags:
+ *       - User
+ *     parameters:
+ *       - name: id
+ *         in: path
+ *         required: true
+ *         description: The ID of the employee
+ *         schema:
+ *           type: integer
+ *     security:
+ *       - xTokenAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - password
+ *             properties:
+ *               password:
+ *                 type: string
+ *                 example: "Aizat"
  *     responses:
  *       200:
  *         description: Success
@@ -188,6 +310,38 @@
  *         description: Unauthorized request
  *       404:
  *         description: employee registration not found
+ */
+
+
+/**
+ * @swagger
+ * /api/employee-leave-history/{id}/{company}:
+ *  get:
+ *    summary: Retrieve employee leave history by ID
+ *    tags:
+ *      - Employee
+ *    parameters:
+ *      - name: Employee ID
+ *        in: path
+ *        required: true
+ *        description: The ID of the employee
+ *        schema:
+ *          type: integer
+ *      - name: Company ID
+ *        in: path
+ *        required: true
+ *        description: The ID of the company
+ *        schema:
+ *          type: integer
+ *    security:
+ *      - xTokenAuth: []
+ *    responses:
+ *       200:
+ *         description: Successfully retrieved
+ *       403:
+ *         description: Unauthorized request
+ *       404:
+ *         description: Employee registration not found
  */
 
 
@@ -339,6 +493,81 @@
  *         description: Unauthorized request
  */
 
+/**
+ * @swagger
+ * /api/employee/add:
+ *   post:
+ *     summary: Update employee data
+ *     tags:
+ *       - Employee
+ *     security:
+ *       - xTokenAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - name
+ *               - email
+ *               - role_id
+ *               - company_id
+ *               - status
+ *             properties:
+ *               name:
+ *                 type: string
+ *                 example: "Aizat"
+ *               bod:
+ *                 type: string
+ *                 format: date
+ *                 example: "1988-11-11"
+ *               email:
+ *                 type: string
+ *                 format: email
+ *                 example: "aizat@email.com"
+ *               phone:
+ *                 type: string
+ *                 example: "6789123123"
+ *               whatapps:
+ *                 type: string
+ *                 example: "6789123123"
+ *               telegram:
+ *                 type: string
+ *                 example: "6789123123"
+ *               role_id:
+ *                 type: integer
+ *                 example: 1
+ *               designation_id:
+ *                 type: integer
+ *                 example: 1
+ *               department_id:
+ *                 type: integer
+ *                 example: 1
+ *               category_id:
+ *                 type: integer
+ *                 example: 1
+ *               company_id:
+ *                 type: integer
+ *                 example: 1
+ *               employee_details_id:
+ *                 type: integer
+ *                 example: 1
+ *               user_id:
+ *                 type: integer
+ *                 example: 1
+ *               status:
+ *                 type: integer
+ *                 example: 1
+ *     responses:
+ *       200:
+ *         description: Success
+ *       403:
+ *         description: Unauthorized request
+ */
+
+
+
 //----------------------------------------------------------------------------------------------------------------------------------------//
 //                   **LEAVES**                                                                                                             //          
 //----------------------------------------------------------------------------------------------------------------------------------------//
@@ -376,6 +605,7 @@
  */
 
 
+
 //----------------------------------------------------------------------------------------------------------------------------------------//
 //                   **DEPARTMENTS**                                                                                                             //          
 //----------------------------------------------------------------------------------------------------------------------------------------//
@@ -403,6 +633,100 @@
  *    summary: Retreive all departments by user company
  *    tags:
  *      - Departments
+ *    security:
+ *      - xTokenAuth: []
+ *    responses:
+ *       200:
+ *         description: Success Retretive
+ *       403:
+ *         description: Unauthorized request 
+ */
+
+/**
+ * @swagger
+ * /api/department/add:
+ *  post:
+ *    summary: Update department details data
+ *    tags:
+ *      - Departments
+ *    security:
+ *       - xTokenAuth: []
+ *    requestBody:
+ *      required: true
+ *      content:
+ *        application/json:
+ *          schema:
+ *            type: object
+ *            required:
+ *              - name,
+ *              - company_id,
+ *            properties:
+ *              name:
+ *                type: string
+ *                example: "Non-Exec"
+ *              company_id:
+ *                type: integer
+ *                example: 1
+ *    responses:
+ *      200:
+ *        description: Success
+ *      403:
+ *        description: Unauthorized request
+ */
+
+/**
+ * @swagger
+ * /api/department-update/{id}:
+ *  post:
+ *    summary: Update department details data
+ *    tags:
+ *      - Departments
+ *    parameters:
+ *      - name: id
+ *        in: path
+ *        required: true
+ *        description: The ID of the department
+ *        schema:
+ *          type: integer
+ *    security:
+ *       - xTokenAuth: []
+ *    requestBody:
+ *      required: true
+ *      content:
+ *        application/json:
+ *          schema:
+ *            type: object
+ *            required:
+ *              - name,
+ *              - company_id,
+ *            properties:
+ *              name:
+ *                type: string
+ *                example: "Non-Exec"
+ *              company_id:
+ *                type: integer
+ *                example: 1
+ *    responses:
+ *      200:
+ *        description: Success
+ *      403:
+ *        description: Unauthorized request
+ */
+
+/**
+ * @swagger
+ * /api/department-delete/{id}:
+ *  post:
+ *    summary: Retreive all data
+ *    tags:
+ *      - Departments
+ *    parameters:
+ *      - name: id
+ *        in: path
+ *        required: true
+ *        description: The ID of department
+ *        schema:
+ *          type: integer
  *    security:
  *      - xTokenAuth: []
  *    responses:
@@ -448,6 +772,234 @@
  *       403:
  *         description: Unauthorized request 
  */
+
+/**
+ * @swagger
+ * /api/designation/add:
+ *  post:
+ *    summary: Update employee details data
+ *    tags:
+ *      - Designations
+ *    security:
+ *       - xTokenAuth: []
+ *    requestBody:
+ *      required: true
+ *      content:
+ *        application/json:
+ *          schema:
+ *            type: object
+ *            required:
+ *              - name,
+ *              - company_id,
+ *            properties:
+ *              name:
+ *                type: string
+ *                example: "Non-Exec"
+ *              company_id:
+ *                type: integer
+ *                example: 1
+ *    responses:
+ *      200:
+ *        description: Success
+ *      403:
+ *        description: Unauthorized request
+ */
+
+/**
+ * @swagger
+ * /api/designation-update/{id}:
+ *  post:
+ *    summary: Update designation details data
+ *    tags:
+ *      - Designations
+ *    parameters:
+ *      - name: id
+ *        in: path
+ *        required: true
+ *        description: The ID of the designation
+ *        schema:
+ *          type: integer
+ *    security:
+ *       - xTokenAuth: []
+ *    requestBody:
+ *      required: true
+ *      content:
+ *        application/json:
+ *          schema:
+ *            type: object
+ *            required:
+ *              - name,
+ *              - company_id,
+ *            properties:
+ *              name:
+ *                type: string
+ *                example: "Non-Exec"
+ *              company_id:
+ *                type: integer
+ *                example: 1
+ *    responses:
+ *      200:
+ *        description: Success
+ *      403:
+ *        description: Unauthorized request
+ */
+
+/**
+ * @swagger
+ * /api/designation-delete/{id}:
+ *  post:
+ *    summary: Retreive all data
+ *    tags:
+ *      - Designations
+ *    parameters:
+ *      - name: id
+ *        in: path
+ *        required: true
+ *        description: The ID of designation
+ *        schema:
+ *          type: integer
+ *    security:
+ *      - xTokenAuth: []
+ *    responses:
+ *       200:
+ *         description: Success Retretive
+ *       403:
+ *         description: Unauthorized request 
+ */
+
+
+//----------------------------------------------------------------------------------------------------------------------------------------//
+//                   **CATEGORIES**                                                                                                             //          
+//----------------------------------------------------------------------------------------------------------------------------------------//
+
+/**
+ * @swagger
+ * /api/categories:
+ *  get:
+ *    summary: Retreive all categories
+ *    tags:
+ *      - Categories
+ *    security:
+ *      - xTokenAuth: []
+ *    responses:
+ *       200:
+ *         description: Success Retretive
+ *       403:
+ *         description: Unauthorized request 
+ */
+
+/**
+ * @swagger
+ * /api/categoriesCompany:
+ *  get:
+ *    summary: Retreive all categories by user company
+ *    tags:
+ *      - Categories
+ *    security:
+ *      - xTokenAuth: []
+ *    responses:
+ *       200:
+ *         description: Success Retretive
+ *       403:
+ *         description: Unauthorized request 
+ */
+
+
+/**
+ * @swagger
+ * /api/category/add:
+ *  post:
+ *    summary: Update employee details data
+ *    tags:
+ *      - Categories
+ *    security:
+ *       - xTokenAuth: []
+ *    requestBody:
+ *      required: true
+ *      content:
+ *        application/json:
+ *          schema:
+ *            type: object
+ *            required:
+ *              - name,
+ *              - company_id,
+ *            properties:
+ *              name:
+ *                type: string
+ *                example: "Non-Exec"
+ *              company_id:
+ *                type: integer
+ *                example: 1
+ *    responses:
+ *      200:
+ *        description: Success
+ *      403:
+ *        description: Unauthorized request
+ */
+
+/**
+ * @swagger
+ * /api/category-update/{id}:
+ *  post:
+ *    summary: Update category details data
+ *    tags:
+ *      - Categories
+ *    parameters:
+ *      - name: id
+ *        in: path
+ *        required: true
+ *        description: The ID of the category
+ *        schema:
+ *          type: integer
+ *    security:
+ *       - xTokenAuth: []
+ *    requestBody:
+ *      required: true
+ *      content:
+ *        application/json:
+ *          schema:
+ *            type: object
+ *            required:
+ *              - name,
+ *              - company_id,
+ *            properties:
+ *              name:
+ *                type: string
+ *                example: "Non-Exec"
+ *              company_id:
+ *                type: integer
+ *                example: 1
+ *    responses:
+ *      200:
+ *        description: Success
+ *      403:
+ *        description: Unauthorized request
+ */
+
+
+/**
+ * @swagger
+ * /api/category-delete/{id}:
+ *  get:
+ *    summary: Retreive all data
+ *    tags:
+ *      - Categories
+ *    parameters:
+ *      - name: id
+ *        in: path
+ *        required: true
+ *        description: The ID of category
+ *        schema:
+ *          type: integer
+ *    security:
+ *      - xTokenAuth: []
+ *    responses:
+ *       200:
+ *         description: Success Retretive
+ *       403:
+ *         description: Unauthorized request 
+ */
+
 
 //----------------------------------------------------------------------------------------------------------------------------------------//
 //                   **CUSTOMERS**                                                                                                             //          

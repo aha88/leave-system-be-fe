@@ -14,9 +14,11 @@ const verifyUser = async (req, res, next) => {
         // Attach the user to the request object
         req.userAccess = {
             id: user.id,
-            company_id: user.company_id,
+            email: user.email,
             role_id: user.role_id
         };
+
+        
         
         next(); // Proceed to the next middleware or route handler
     } catch (error) {
