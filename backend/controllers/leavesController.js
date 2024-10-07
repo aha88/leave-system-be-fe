@@ -56,8 +56,6 @@ const getAllLeave = async (req,res) => {
       console.error('Error retrieving employee registration:', error);
       res.status(500).send('Error retrieving employee registration');
     }
-  
-
 }
 
 const getAllLeaveByCompany = async (req,res) => {
@@ -115,7 +113,7 @@ const getAllLeaveByCompany = async (req,res) => {
     } catch (error) {
       console.error('Error retrieving employee leaves:', error);
       res.status(500).send('Error retrieving employee leaves');
-    }
+    } 
 }
 
 const createLeave = async (req, res) => {
@@ -134,11 +132,40 @@ const rejectedLeave = async (req, res) => {
 const revokedLeave = async (req, res) => {
 }
 
-const employeeleaveHistory = async (req, res) => {
+const employeeleaveTotalHistory = async (req, res) => {
+  
+  const { id } = req.params;
+  try {
+    const totalDuration = await db('leaves_pool')
+    .select(db.raw('SUM(duration) as totalDuration'))  
+    .where('employee_id', id)           
+    .groupBy('employee_id'); 
+      res.json({ 
+      employee: parseInt(id),
+      count : totalDuration
+    })
+  } catch (error) {
+    return res.json({ msg: error})
+  }
 
-  await db('leaves')
 }
 
+const userleaveTotalHistory = async (req, res) => {
+  
+  try {
+   const totalDuration = await db('leaves_pool')
+   .select(db.raw('SUM(duration) as totalDuration'))  
+   .where('employee_id', req.userAccess.id)           
+   .groupBy('employee_id'); 
+    res.json({ 
+      employee: 1, 
+      count : totalDuration
+    })
+  } catch (error) {
+    return res.json({ msg: error})
+  }
+
+}
 
 module.exports = {
   getAllLeave,
@@ -148,5 +175,6 @@ module.exports = {
   approvedLeave,
   rejectedLeave,
   revokedLeave,
-  employeeleaveHistory
+  employeeleaveTotalHistory,
+  userleaveTotalHistory
 };

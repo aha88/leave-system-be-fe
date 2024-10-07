@@ -34,8 +34,6 @@ const getAllDesignation = async (req, res) => {
         console.error('Error retrieving designations:', error);
         res.status(500).send('Error retrieving designations');
       }
-    
-
 }
 
 const getAllDesignationByCompany = async (req,res) => {
@@ -72,7 +70,6 @@ const getAllDesignationByCompany = async (req,res) => {
         console.error('Error retrieving designations:', error);
         res.status(500).send('Error retrieving designations');
       }
-    
 }
 
 const addDesignation = async (req, res) => {
@@ -130,7 +127,7 @@ const deleteDesignation = async (req, res) => {
           status: 'error',
           message: 'Server error while deleting designation',
         });
-    }
+      }
 }
 
 const updateDesignation = async (req, res) => {

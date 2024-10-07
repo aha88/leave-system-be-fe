@@ -35,8 +35,6 @@ const getAllDepartment = async (req,res) => {
       console.error('Error retrieving departments:', error);
       res.status(500).send('Error retrieving departments');
     }
-  
-
 }
 
 const getAllDepartmentByCompany = async (req, res) => {
@@ -94,7 +92,7 @@ const addDepartment = async (req, res) => {
       })
   } catch (error){
       res.status(500).json({msg: "Error on adding department"})
-  }
+  } 
 }
 
 const deleteDepartment = async (req, res) => {
@@ -127,7 +125,7 @@ const deleteDepartment = async (req, res) => {
           status: 'error',
           message: 'Server error while deleting department',
         });
-    }
+      }
 }
 
 const updateDepartment = async (req, res) => {

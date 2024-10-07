@@ -1,6 +1,72 @@
 const db = require('../db');
 
 
+const idEmployeeLeaveHistory = async (req, res) => {
+  const { id,company } = req.params;
+  console.log(req.params)
+  
+    try{
+      const leavesK = await db('leaves_pool')
+      .select(
+          'leaves_pool.*',
+          'employees.*',
+          'leaves_pool.id as leave_id',
+          'employor.name as employor_name',
+          'employor.id as employor_id'
+        )
+        .join('employees', 'employees.id', 'leaves_pool.employee_id')
+        .join('employees as employor', 'employor.id', 'leaves_pool.employor_id')
+      .where({
+        'employees.user_id': id,
+        'leaves_pool.company_id': company
+      });                            
+  
+      const employeeLeave = leavesK.map(emp => ({
+        id: emp.leave_id,
+        name: emp.name,
+        company_id: emp.company_id,
+        employee_id: emp.employee_id,
+        duration: emp.duration,
+        start_date: emp.start_date,
+        end_date: emp.end_date,
+        reason: emp.reason,
+        attachment: emp.attachment,
+        leave_type_id: emp.leave_type_id,
+        employor_id: emp.employor_id,
+        employor_remarks: emp.employor_remarks,
+        status: emp.status,
+        created_at: emp.created_at,
+        updated_at: emp.updated_at,
+        bod: emp.bod,
+        email: emp.email,
+        phone: emp.phone,
+        whatapps: emp.whatapps,
+        telegram: emp.telegram,
+        role_id: emp.role_id,
+        designation_id: emp.designation_id,
+        department_id: emp.department_id,
+        category_id: emp.category_id,
+        employee_details_id: emp.employee_details_id,
+        user_id: emp.user_id,
+        employor: 
+        {
+          id: emp.employor_id,
+          name: emp.employor_name
+        }
+      }));
+
+      res.json({
+        status: res.statusCode,
+        data: employeeLeave,
+        length: employeeLeave.length
+      })
+  
+    } catch(error) {
+      res.json(error);
+    }
+  }
+  
+
 // get all employeee
 const getAllEmployee = async (req, res) => {
   if ([2, 3, 4].includes(req.userAccess.role_id)) {
@@ -128,7 +194,6 @@ const allEmployeeByCompany = async (req, res) => {
     console.error('Error retrieving employee registration:', error);
     res.status(500).send('Employee registration not found');
   }
- 
 };
 
 // id a customer
@@ -194,7 +259,7 @@ const idEmployee = async (req, res) => {
     } catch (error) {
       console.error('Error retrieving employee registration:', error);
       res.status(500).send('Employee registration not found');
-    }
+    } 
 };
 
 //id employee update 
@@ -306,32 +371,6 @@ const idEmployeeDetailsUpdate = async (req, res) => {
   }
 }
 
-const idEmployeeLeaveHistory = async (req, res) => {
-const { id,company } = req.params;
-
-console.log(company)
-  try{
-    const leaves = await db('employees')
-  .select('leaves_pool.*', 'employees.whatapps')
-  .join('leaves_pool', 'employees.id', 'leaves_pool.employee_id')    
-  .where({
-    'employees.user_id': id,
-    'leaves_pool.company_id': company
-  });                            
-
-  console.log(leaves);
-
-    res.json({
-      status: req.statusCode,
-      data: leaves,
-      length: leaves.length
-    })
-  } catch(error) {
-    res.json({msg: error});
-  }
-
-}
-
 const employeeAdd = async (req, res) => {
   if ([2, 4].includes(req.userAccess.role_id)) {
     return res.status(405).json('You don\'t have the authorization');
@@ -421,7 +460,6 @@ const employeeAdd = async (req, res) => {
   } catch(error) {
     res.json({msg: 'Error message: '+error});
   }
-
 }
 
 module.exports = {

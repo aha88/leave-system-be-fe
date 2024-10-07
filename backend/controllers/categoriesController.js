@@ -34,9 +34,8 @@ const getAllCategories = async (req,res) => {
     } catch (error) {
       console.error('Error retrieving categories:', error);
       res.status(500).send('Error retrieving categories');
-    }
+    }  
   
-
 }
 
 const getAllCategoriesByCompany = async (req, res) => {
@@ -73,7 +72,7 @@ const getAllCategoriesByCompany = async (req, res) => {
     } catch (error) {
       console.error('Error retrieving categories:', error);
       res.status(500).send('Error retrieving categories');
-    }
+    } 
 }
 
 const addCategory = async (req, res) => {
@@ -99,7 +98,7 @@ const addCategory = async (req, res) => {
 
     } catch (error){
         res.status(500).json({msg: "Error on adding category"})
-    }
+    }  
 }
 
 const deleteCategory = async (req, res) => {
@@ -132,7 +131,7 @@ const deleteCategory = async (req, res) => {
           status: 'error',
           message: 'Server error while deleting categorie',
         });
-    }
+    } 
 }
 
 const updateCategory = async (req, res) => {
@@ -159,8 +158,7 @@ const updateCategory = async (req, res) => {
 
     } catch (error){
         res.status(500).json({msg: "Error on adding category"})
-    }
-
+    }  
 }
 
 

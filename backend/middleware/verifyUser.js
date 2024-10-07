@@ -4,6 +4,7 @@ const verifyUser = async (req, res, next) => {
 
     try {
         const user = await db('users')
+            .join('employees', 'employees.user_id', 'users.id')
             .where('users.email', req.user.email)  
             .first(); 
 
@@ -15,10 +16,9 @@ const verifyUser = async (req, res, next) => {
         req.userAccess = {
             id: user.id,
             email: user.email,
-            role_id: user.role_id
-        };
-
-        
+            role_id: user.role_id,
+            company_id: user.company_id
+        };        
         
         next(); // Proceed to the next middleware or route handler
     } catch (error) {

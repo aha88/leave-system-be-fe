@@ -315,19 +315,19 @@
 
 /**
  * @swagger
- * /api/employee-leave-history/{id}/{company}:
+ * /api/employees-leave-history/{id}/{company}:
  *  get:
  *    summary: Retrieve employee leave history by ID
  *    tags:
  *      - Employee
  *    parameters:
- *      - name: Employee ID
+ *      - name: id
  *        in: path
  *        required: true
  *        description: The ID of the employee
  *        schema:
  *          type: integer
- *      - name: Company ID
+ *      - name: company
  *        in: path
  *        required: true
  *        description: The ID of the company
@@ -604,6 +604,52 @@
  *         description: Unauthorized request 
  */
 
+/**
+ * @swagger
+ * /api/leaves-history/{id}:
+ *  get:
+ *    summary: Retrieve employee leave history by ID
+ *    tags:
+ *      - Leaves
+ *    parameters:
+ *      - name: id
+ *        in: path
+ *        required: true
+ *        description: The ID of the employee
+ *        schema:
+ *          type: integer
+ *      - name: company
+ *        in: path
+ *        required: true
+ *        description: The ID of the company
+ *        schema:
+ *          type: integer
+ *    security:
+ *      - xTokenAuth: []
+ *    responses:
+ *       200:
+ *         description: Successfully retrieved
+ *       403:
+ *         description: Unauthorized request
+ *       404:
+ *         description: Employee registration not found
+ */
+
+/**
+ * @swagger
+ * /api/user-history:
+ *  get:
+ *    summary: Retreive all leaves by employee ID
+ *    tags:
+ *      - Leaves
+ *    security:
+ *      - xTokenAuth: []
+ *    responses:
+ *       200:
+ *         description: Success Retretive
+ *       403:
+ *         description: Unauthorized request 
+ */
 
 
 //----------------------------------------------------------------------------------------------------------------------------------------//

@@ -4,12 +4,10 @@ const userAccessPass = async (req, res, next) => {
     try {
         const id = req.params.id;
 
-        
         const user = await db('users')
         .where('id', id)  
         .first(); 
         
-
           //admin user
         if(req.userAccess.role_id === 1) {
             
@@ -24,9 +22,7 @@ const userAccessPass = async (req, res, next) => {
         }else if (req.userAccess.id != user.id && req.userAccess.role_id != user.role_id) {
             return res.status(400).json({ msg: 'You are not allowed to change data!' });
         }
-    
         
-
     } catch (error) {
         console.error('Error verifying user access:', error);
         res.status(500).json({ message: 'Server error' });

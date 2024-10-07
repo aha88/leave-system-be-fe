@@ -7,11 +7,11 @@ const userAccessPass = require('../middleware/UserAccessPass');
 
 // Define Customer routes
 router.get('/employees', authenticateToken,verifyUser, employeeController.getAllEmployee); 
+router.get('/employees-leave-history/:id/:company', authenticateToken,verifyUser, userAccessPass, employeeController.idEmployeeLeaveHistory); 
 router.post('/employee/add', authenticateToken,verifyUser, employeeController.employeeAdd); 
-router.get('/employeeCompany/:id', authenticateToken,verifyUser, employeeController.allEmployeeByCompany); 
 router.get('/employee/:id', authenticateToken,verifyUser, userAccessPass, employeeController.idEmployee); 
+router.get('/employeeCompany/:id', authenticateToken,verifyUser, employeeController.allEmployeeByCompany); 
 router.post('/employee_update/:id', authenticateToken,verifyUser,userAccessPass, employeeController.idEmployeeUpdate); 
 router.post('/employee-details-update/:id', authenticateToken,verifyUser, userAccessPass, employeeController.idEmployeeDetailsUpdate); 
-router.get('/employee-leave-history/:id/:company', authenticateToken,verifyUser, userAccessPass, employeeController.idEmployeeLeaveHistory); 
 
 module.exports = router;

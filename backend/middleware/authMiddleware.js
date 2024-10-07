@@ -7,6 +7,7 @@ const jwt = require('jsonwebtoken');
  * @param {import('express').NextFunction} next
  */
 const authenticateToken = (req, res, next) => {
+  // Set Content-Type to application/json for all responses
   const authHeader = req.headers['x-token'];
   const token = authHeader && authHeader.split(' ')[0]; 
 
