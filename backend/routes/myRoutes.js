@@ -11,7 +11,6 @@ const router = express.Router();
 
 // '/api' path
 router.use('/api', userRoutes);
-// router.use('/api', customerRoute);
 router.use('/api', employeeRoute);
 router.use('/api', leavesRoute);
 router.use('/api', departmentRoute);

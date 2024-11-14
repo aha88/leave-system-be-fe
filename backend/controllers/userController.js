@@ -115,6 +115,7 @@ const addUserAccess = async (req, res) => {
 
   if (existing) {
    return res.status(405).json({msg :'This email is already registered!'})
+
   }else{
     
     const user = { name: name,

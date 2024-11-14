@@ -129,9 +129,9 @@ const deleteDepartment = async (req, res) => {
 }
 
 const updateDepartment = async (req, res) => {
-  if ([2, 4].includes(req.userAccess.role_id)) {
-    return res.status(405).json('You don\'t have the authorization');
-  }
+  // if ([2, 4].includes(req.userAccess.role_id)) {
+  //   return res.status(405).json('You don\'t have the authorization');
+  // }
 
   const { name, company_id} = req.body;
   const { id } = req.params;

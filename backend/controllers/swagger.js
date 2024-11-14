@@ -615,12 +615,6 @@
  *      - name: id
  *        in: path
  *        required: true
- *        description: The ID of the employee
- *        schema:
- *          type: integer
- *      - name: company
- *        in: path
- *        required: true
  *        description: The ID of the company
  *        schema:
  *          type: integer
@@ -639,7 +633,7 @@
  * @swagger
  * /api/user-history:
  *  get:
- *    summary: Retreive all leaves by employee ID
+ *    summary: Retreive all leaves by company
  *    tags:
  *      - Leaves
  *    security:
@@ -649,6 +643,81 @@
  *         description: Success Retretive
  *       403:
  *         description: Unauthorized request 
+ */
+
+/**
+ * @swagger
+ * /api/approve-leave/{id}:
+ *  get:
+ *    summary: Get employee leave ID for update status
+ *    tags:
+ *      - Leaves
+ *    parameters:
+ *      - name: id
+ *        in: path
+ *        required: true
+ *        description: The ID of the leave
+ *        schema:
+ *          type: integer
+ *    security:
+ *      - xTokenAuth: []
+ *    responses:
+ *       200:
+ *         description: Successfully retrieved
+ *       403:
+ *         description: Unauthorized request
+ *       404:
+ *         description: Employee registration not found
+ */
+
+/**
+ * @swagger
+ * /api/rejected-leave/{id}:
+ *  get:
+ *    summary: Get employee leave ID for update status
+ *    tags:
+ *      - Leaves
+ *    parameters:
+ *      - name: id
+ *        in: path
+ *        required: true
+ *        description: The ID of the leave
+ *        schema:
+ *          type: integer
+ *    security:
+ *      - xTokenAuth: []
+ *    responses:
+ *       200:
+ *         description: Successfully retrieved
+ *       403:
+ *         description: Unauthorized request
+ *       404:
+ *         description: Employee registration not found
+ */
+
+/**
+ * @swagger
+ * /api/revoked-leave/{id}:
+ *  get:
+ *    summary: Get employee leave ID for update status
+ *    tags:
+ *      - Leaves
+ *    parameters:
+ *      - name: id
+ *        in: path
+ *        required: true
+ *        description: The ID of the leave
+ *        schema:
+ *          type: integer
+ *    security:
+ *      - xTokenAuth: []
+ *    responses:
+ *       200:
+ *         description: Successfully retrieved
+ *       403:
+ *         description: Unauthorized request
+ *       404:
+ *         description: Employee registration not found
  */
 
 

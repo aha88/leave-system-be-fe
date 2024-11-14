@@ -9,10 +9,10 @@ const userAccessPass = require('../middleware/UserAccessPass');
 router.get('/leaves', authenticateToken,verifyUser, leavesController.getAllLeave); 
 router.get('/leavesCompany', authenticateToken,verifyUser, leavesController.getAllLeaveByCompany);
 router.post('/create-leave', authenticateToken,verifyUser, leavesController.createLeave);
-router.post('/approve-leave', authenticateToken,verifyUser, leavesController.approvedLeave);
-router.post('/rejected-leave', authenticateToken,verifyUser, leavesController.rejectedLeave);
-router.post('/revoked-leave', authenticateToken,verifyUser, leavesController.revokedLeave);
+router.get('/approve-leave/:id', authenticateToken,verifyUser, leavesController.approvedLeave);
+router.get('/rejected-leave/:id', authenticateToken,verifyUser, leavesController.rejectedLeave);
+router.get('/revoked-leave/:id', authenticateToken,verifyUser, leavesController.revokedLeave);
 router.get('/user-history', authenticateToken,verifyUser, leavesController.userleaveTotalHistory);
-router.get('/leaves-history/:id', authenticateToken,verifyUser, leavesController.employeeleaveTotalHistory);
+router.get('/leaves-history/:id', authenticateToken,verifyUser, leavesController.leaveTotalHistory);
  
 module.exports = router;

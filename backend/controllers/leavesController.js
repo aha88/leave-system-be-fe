@@ -123,44 +123,159 @@ const createLeave = async (req, res) => {
 const updatedLeave = async (req, res) => {
 }
 
+/**
+ * manager/subordinate to APPROVE leave
+ * @param {id} req  employee id 
+ * @returns 
+ */
 const approvedLeave = async (req, res) => {
-}
-
-const rejectedLeave = async (req, res) => {
-}
-
-const revokedLeave = async (req, res) => {
-}
-
-const employeeleaveTotalHistory = async (req, res) => {
-  
   const { id } = req.params;
+  const userAccess = req.userAccess;
+  
   try {
-    const totalDuration = await db('leaves_pool')
-    .select(db.raw('SUM(duration) as totalDuration'))  
-    .where('employee_id', id)           
-    .groupBy('employee_id'); 
-      res.json({ 
-      employee: parseInt(id),
-      count : totalDuration
+    const employeesApprove = await db('leaves_pool')
+    .where('leaves_pool.company_id', parseInt(userAccess.company_id))
+    .where('leaves_pool.id', parseInt(id))
+    .update({ status: 2 });
+
+    return res.json({ 
+      data : res.json({ status: 201, msg: "Leave Approved" })
     })
+
+  } catch(err) {
+      return res.json({ msg: error})
+  }
+}
+
+/**
+ * manager/subordinate to REJECT leave
+ * @param {id, userAccess} req  employee id 
+ * @returns 
+ */
+const rejectedLeave = async (req, res) => {
+  const { id } = req.params;
+  const userAccess = req.userAccess;
+  
+  try {
+    const employeesApprove = await db('leaves_pool')
+    .where('leaves_pool.company_id', parseInt(userAccess.company_id))
+    .where('leaves_pool.id', parseInt(id))
+    .update({ status: 3 });
+
+    return res.json({ 
+      data : res.json({ status: 201, msg: "Leave Approved" })
+    })
+
+  } catch(err) {
+      return res.json({ msg: error})
+  }
+}
+
+/**
+ * manager/subordinate to REVOKED leave
+ * @param {id} req  employee id 
+ */
+const revokedLeave = async (req, res) => {
+  
+  try {
+    await db('leaves_pool')
+    .where('leaves_pool.company_id', parseInt(userAccess.company_id))
+    .where('leaves_pool.id', parseInt(id))
+    .update({ status: 5 });
+
+    return res.json({ 
+      data : res.json({ status: 201, msg: "Leave Approved" })
+    })
+
+  } catch(err) {
+      return res.json({ msg: error})
+  }
+}
+
+/**
+ * all user leave checked
+ * @param {id, } req  company id 
+ */
+const leaveTotalHistory = async (req, res) => {
+  const { id } = req.params;
+  const userAccess = req.userAccess;
+
+  try {
+      const employeesLeaves = await db('leaves_pool')
+    .select('leaves_pool.*','leave_types.name as leave_name','leave_types.id as leave_id')
+    .join('leave_types', 'leaves_pool.leave_type_id', 'leave_types.id')
+    .where('leaves_pool.company_id', parseInt(userAccess.company_id))
+    .where('leaves_pool.employee_id', parseInt(userAccess.id))
+
+    const dt = employeesLeaves.map(resp => ({
+       companyID : resp.company_id,
+       name : resp.name,
+       company_id : resp.company_id,
+       employee_id : resp.employee_id,
+       duration : resp.duration,
+       start_date : resp.start_date,
+       end_date : resp.end_date,
+       reason : resp.reason,
+       attachment : resp.attachment,
+       leave_type_id : {
+        id: resp.leave_id,
+        name: resp.leave_name
+      },
+       employor_id : resp.employor_id,
+       employor_remarks : resp.employor_remarks,
+       status : resp.status
+      })
+    );
+
+     return res.json({ 
+      data : dt
+    })
+
   } catch (error) {
     return res.json({ msg: error})
   }
-
 }
 
+/**
+ * user leaves history
+ * @param {id, userAccess} req 
+ */
 const userleaveTotalHistory = async (req, res) => {
-  
+  const { id } = req.params;
+  const userAccess = req.userAccess;
+
   try {
-   const totalDuration = await db('leaves_pool')
-   .select(db.raw('SUM(duration) as totalDuration'))  
-   .where('employee_id', req.userAccess.id)           
-   .groupBy('employee_id'); 
-    res.json({ 
-      employee: 1, 
-      count : totalDuration
+    const employeesLeaves = await db('leaves_pool')
+    .select('leaves_pool.*','leave_types.name as leave_name','leave_types.id as leave_id')
+    .join('leave_types', 'leaves_pool.leave_type_id', 'leave_types.id')
+    .where('leaves_pool.company_id', parseInt(id))
+    .where('leaves_pool.employee_id', parseInt(userAccess.id))
+
+
+    const dt = employeesLeaves.map(resp => ({
+       companyID : resp.company_id,
+       name : resp.name,
+       company_id : resp.company_id,
+       employee_id : resp.employee_id,
+       duration : resp.duration,
+       start_date : resp.start_date,
+       end_date : resp.end_date,
+       reason : resp.reason,
+       attachment : resp.attachment,
+       leave_type_id : {
+        id: resp.leave_id,
+        name: resp.leave_name
+      },
+       employor_id : resp.employor_id,
+       employor_remarks : resp.employor_remarks,
+       status : resp.status
+      })
+    );
+
+    return res.json({ 
+      data : dt
     })
+
   } catch (error) {
     return res.json({ msg: error})
   }
@@ -175,6 +290,6 @@ module.exports = {
   approvedLeave,
   rejectedLeave,
   revokedLeave,
-  employeeleaveTotalHistory,
+  leaveTotalHistory,
   userleaveTotalHistory
 };

@@ -8,6 +8,13 @@ const userAccessPass = async (req, res, next) => {
         .where('id', id)  
         .first(); 
         
+        console.log( {
+            "req.userAccess.id": req.userAccess.id,
+             "user.id": user.id,
+             "req.userAccess.role_id": req.userAccess.role_id,
+             "user.role_id" : user.role_id
+        })
+        
           //admin user
         if(req.userAccess.role_id === 1) {
             

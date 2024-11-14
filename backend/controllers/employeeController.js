@@ -264,6 +264,8 @@ const idEmployee = async (req, res) => {
 
 //id employee update 
 const idEmployeeUpdate = async (req, res) => {
+
+  
   const {
     name,
     email,
@@ -277,6 +279,7 @@ const idEmployeeUpdate = async (req, res) => {
     category_id,
     status
     } = req.body;
+    
     const { id } = req.params;
 
   try {
