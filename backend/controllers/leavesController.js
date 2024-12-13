@@ -116,8 +116,27 @@ const getAllLeaveByCompany = async (req,res) => {
     } 
 }
 
+/**
+ * 
+ * @param {*} req 
+ * /create-leave
+ * 
+ */
 const createLeave = async (req, res) => {
-  
+  const userAccess = req.userAccess;
+  const leaveData = [];
+    
+  try{
+
+    const dt = {
+      status: 200,
+      data: leaveData
+    }
+
+    return res.status(201).json(dt);
+  } catch(err) {
+   return res.status(500).send('Error retrieving employee leaves');
+  }
 }
 
 const updatedLeave = async (req, res) => {
