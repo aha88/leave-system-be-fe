@@ -11,7 +11,7 @@ export default async function handler(req, res) {
              }
         });
         const data = await response.json();
-        res.json(data);
+        return res.json(data);
     } catch (error) {
         res.status(500).json({ error: 'Internal Server Error' });
     }

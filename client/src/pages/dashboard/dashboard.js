@@ -5,7 +5,8 @@ import {customersData, sessionV, tokenV } from '@/store/authuser';
 import  { useRouter } from 'next/router';
 import MyDataTable from '@/component/myTable';
 import { CCardTitle, CCol, CContainer, CRow } from '@coreui/react';
-
+import userService from './../../services/userService'; 
+import { Col } from 'react-bootstrap';
 
 
 const Dashboard = () => {
@@ -16,59 +17,29 @@ const Dashboard = () => {
 
     useEffect(() => {
         if (customersData.value == null ){
-            const fetchData = async () => {
+           
+
+            const fetchUserData = async () => {
+                setLoading(true);
                 const token = tokenV.value ?? sessionStorage.getItem('tk');
-                
-                if (!sessionV.value || !token) {
-                    router.replace('/');
-                    return;
-                }
-            
+                const id= sessionStorage.getItem('id');
+
                 try {
-                    const response = await axios.get('/api/customers', {
-                        headers: {
-                            'x-token': token,
-                        },
-                    });
-                    const newData = response.data.data;
-                    setData(newData);
-                    customersData.value = newData; // Sync with external store
-                    setLoading(false);
-                } catch (error) {
-                    console.error('Error fetching data:', error);
-                    setError('Error fetching data');
-                    setLoading(false);
+                    const userData = await userService.fetchUserData(id, token);  // Call the service
+                    setData(userData);  
+                    customersData.value = userData
+                } catch (err) {
+                    setError(err.message);  // Set error state
+                } finally {
+                    setLoading(false);  // Set loading to false
                 }
-            
             };
             
-            fetchData();
+            fetchUserData();
         }
     }, [sessionV.value, tokenV.value, router,loading]);
 
-    const handleEdit = (row) => {
-        router.push(`../profile/${row.id}`);
-    };
-    
-    const handleDelete = (row) => {
-        const fetchData = async () => {
-            const token = tokenV.value;
-            try {
-                const response = await axios.get('/api/customers', {
-                    headers: {
-                        'x-token': token,
-                    },
-                });
-                const newData = response.data.data;
-                setData(newData);
-                customersData.value = newData; // Sync with external store
-            } catch (error) {
-                console.error('Error fetching data:', error);
-                setError('Error fetching data');
-            }
-        };
-        fetchData();
-    };
+ 
 
     if (loading) return <p>Loading...</p>;
     if (error) return <p className="text-danger">{error}</p>;
@@ -78,17 +49,17 @@ const Dashboard = () => {
             <CContainer className='mt-3'>
                 <CRow className='mt-3'>
                     <CCol md={12}>
-                        <CCardTitle>Customer Registration</CCardTitle>
+                        <CCardTitle>
+                            <h2>
+                                Dashboard
+                            </h2>
+                        </CCardTitle>
                     </CCol>
                 </CRow>
                 <CRow>
-                    <CCol md={12}>
-                        <MyDataTable
-                            data={data} // Use state data for rendering
-                            onEdit={handleEdit}
-                            onDelete={handleDelete}
-                        />
-                    </CCol>
+                    <Col>
+                        {/* {JSON.stringify(data[0].data[0])} */}
+                    </Col>
                 </CRow>
             </CContainer>
         </div>
