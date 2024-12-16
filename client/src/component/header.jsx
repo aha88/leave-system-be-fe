@@ -131,12 +131,12 @@ export const Header = ({ data = userData.value }) => {
           <>
             <CCardText className="text-black">
               <span className="pr-2">{data?.value?.name || 'User'}</span>
-              <Button className="mr-1" color="primary" onClick={toggleModal}>Apply New Customer</Button>
+              <Button className="mr-1" color="primary" onClick={toggleModal}>Apply Leave</Button>
               <Button variant="outline-secondary" onClick={signOut}>Sign-out</Button>
             </CCardText>
           </>
           :
-          <Button className="mr-1" color="primary" onClick={toggleModal}>Apply New Customer</Button>
+          <Button className="mr-1" color="primary" onClick={toggleModal}>New Account</Button>
         }
 
         {isModalOpen && (

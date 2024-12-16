@@ -3,10 +3,11 @@ import axios from 'axios';
 import { useState } from 'react';
 import {customersData, sessionV, tokenV } from '@/store/authuser';
 import  { useRouter } from 'next/router';
-import MyDataTable from '@/component/myTable';
 import { CCardTitle, CCol, CContainer, CRow } from '@coreui/react';
 import userService from './../../services/userService'; 
 import { Col } from 'react-bootstrap';
+import MyCounter from '@/component/myCounter';
+import MyDataTable from '@/component/MyDataTable';
 
 
 const Dashboard = () => {
@@ -57,10 +58,20 @@ const Dashboard = () => {
                     </CCol>
                 </CRow>
                 <CRow>
-                    <Col>
-                        {/* {JSON.stringify(data[0].data[0])} */}
-                    </Col>
+                        <MyCounter title="Utilize" number={50} />
+                        <MyCounter title="Balance" number={50} />
+                        <MyCounter title="AL" number={50} btn={true}/>
                 </CRow>
+
+                <CRow>
+                    <CCol md={12}>
+                        <MyDataTable
+                            data={data} // Use state data for rendering
+                            
+                        />
+                    </CCol>
+                </CRow>
+
             </CContainer>
         </div>
     );
