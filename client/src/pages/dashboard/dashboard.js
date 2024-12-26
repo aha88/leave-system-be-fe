@@ -4,9 +4,8 @@ import { useState } from 'react';
 import {customersData, sessionV, tokenV } from '@/store/authuser';
 import  { useRouter } from 'next/router';
 import { CCardTitle, CCol, CContainer, CRow } from '@coreui/react';
-import userService from './../../services/userService'; 
-import { Col } from 'react-bootstrap';
-import MyCounter from '@/component/myCounter';
+import userService from '../../services/userService'; 
+import MyCounter from '@/component/MyCounter';
 import MyDataTable from '@/component/MyDataTable';
 
 
@@ -18,7 +17,6 @@ const Dashboard = () => {
 
     useEffect(() => {
         if (customersData.value == null ){
-           
 
             const fetchUserData = async () => {
                 setLoading(true);
@@ -40,8 +38,6 @@ const Dashboard = () => {
         }
     }, [sessionV.value, tokenV.value, router,loading]);
 
- 
-
     if (loading) return <p>Loading...</p>;
     if (error) return <p className="text-danger">{error}</p>;
 
@@ -58,16 +54,16 @@ const Dashboard = () => {
                     </CCol>
                 </CRow>
                 <CRow>
-                        <MyCounter title="Utilize" number={50} />
-                        <MyCounter title="Balance" number={50} />
-                        <MyCounter title="AL" number={50} btn={true}/>
+                        <MyCounter title="Leave" number={50} btn={true}/>
+                        <MyCounter title="Leave Entitlement" number={50} btn={true}/>
+                        <MyCounter title="Taken" number={50} btn={true}/>
+                        <MyCounter title="Balance" number={50} btn={true}/>
                 </CRow>
 
                 <CRow>
                     <CCol md={12}>
                         <MyDataTable
-                            data={data} // Use state data for rendering
-                            
+                            data={data}
                         />
                     </CCol>
                 </CRow>
@@ -79,13 +75,3 @@ const Dashboard = () => {
 
 export default Dashboard;
 
-export async function getServerSideProps(context) {
-
-    const data=[];
-    return {
-        props: {
-            data, // Pass data as props to the page
-        },
-    };
-
-}

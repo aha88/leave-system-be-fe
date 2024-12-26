@@ -22,5 +22,5 @@ export default function Home() {
       }
     }, [isLoggedIn]);  
   
-    return isLoggedIn ? <Dashboard /> : <Login />;
+    return isLoggedIn ? <Dashboard/> : <Login />;
 }

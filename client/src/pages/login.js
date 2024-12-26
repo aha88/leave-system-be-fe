@@ -42,15 +42,15 @@ export default function Login() {
           sessionStorage.setItem('session', true);  
           sessionStorage.setItem('id', data.userID);  
 
-          const { error } = schema.validate(formData);
+          const { errors } = schema.validate(formData);
 
           if(tokenV.value !== null){
-            router.push('./dashboard/dashboard');
+            router.push('./dashboard');
           }
 
         } catch (err) {
           console.error('Error during login request:', err);
-          setError('Login failed'); 
+          setError(errors); 
         }
       }
   }
